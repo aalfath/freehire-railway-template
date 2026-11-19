@@ -23,7 +23,12 @@ for p in $INGEST_PROVIDERS; do
   /app/add-board --provider="$p" --company="$p" --apply >/dev/null 2>&1 && log "registered source $p"
 done
 
-run /app/reindex
+# Meilisearch may still be starting on a fresh deploy: retry the first index build.
+i=0
+until /app/reindex; do
+  i=$((i + 1)); [ "$i" -lt 30 ] || break
+  log "Meilisearch not ready yet, retrying in 10s"; sleep 10
+done
 run /app/reindex-companies
 last_reindex=$(date +%s)
 
