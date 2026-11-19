@@ -1,9 +1,8 @@
 # freehire background worker: the crawl, search-index and rollup jobs that upstream runs from
 # cron, in one loop. Builds the pinned upstream release commit (tag deploy-20261119-1635).
-FROM golang:1.27-alpine@sha256:70bd7ddea8b6cbe5d6943cde279d6b67feb10cc924fb9100d1d8757c1575b280 AS build
+FROM golang:1.27-trixie@sha256:f18c3d73a184fb0582828510722e723b63a93f7188d11dd223d9be6f6880e65d AS build
 ARG FREEHIRE_REF=378e6899bf246531bb256e6cc819742603007838
-RUN apk add --no-cache git \
- && git init -q /src && cd /src \
+RUN git init -q /src && cd /src \
  && git fetch -q --depth 1 https://github.com/strelov1/freehire.git "${FREEHIRE_REF}" \
  && git checkout -q FETCH_HEAD
 WORKDIR /src

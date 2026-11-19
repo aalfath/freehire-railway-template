@@ -21,6 +21,9 @@ printf 'map $http_x_forwarded_proto $fwd_proto { default $http_x_forwarded_proto
 cat /tmp/freehire-web/proto.conf /tmp/freehire-web/default.conf > /tmp/freehire-web/site.conf
 mv /tmp/freehire-web/site.conf /tmp/freehire-web/default.conf
 # One nginx worker per CPU the container really has, not per host CPU.
-sed "s|worker_processes auto;|worker_processes ${NGINX_WORKERS:-2};|" /etc/nginx/nginx.conf > /tmp/freehire-web/nginx.conf
+# Debian keeps dynamic modules (brotli) in modules-enabled, Alpine in modules.
+sed -e "s|worker_processes auto;|worker_processes ${NGINX_WORKERS:-2};|" \
+    -e "s|include /etc/nginx/modules/\*.conf;|include /etc/nginx/modules-enabled/*.conf;|" \
+    /etc/nginx/freehire-main.conf > /tmp/freehire-web/nginx.conf
 API_INTERNAL_URL="http://${API_HOST}:${API_PORT}" PORT="${NODE_PORT:-3000}" HOST=127.0.0.1 node build &
 exec nginx -c /tmp/freehire-web/nginx.conf -e stderr -g 'daemon off;'
