@@ -32,7 +32,7 @@ Services in this template:
 
 * **Web** (public): SvelteKit SSR behind nginx. It serves the site and forwards `/api`, `/health` and `/cv` to the API over the private network, so sign-in cookies stay same-origin.
 * **API**: the Go server. It applies pending migrations, then serves on port 8080. Health check: `/health`.
-* **Worker**: registers the job sources in `INGEST_PROVIDERS` (by default remoteok, remotive, weworkremotely, himalayas, jobicy, arbeitnow and workingnomads, which need no API key), creates the search indexes, then every `INGEST_INTERVAL_MINUTES` (60) crawls them and pushes new and closed postings into Meilisearch. It rebuilds the company index and search suggestions once a day.
+* **Worker**: registers the job sources in `INGEST_PROVIDERS` (by default remoteok, remotive, weworkremotely, himalayas, jobicy and workingnomads, which need no API key), creates the search indexes, then every `INGEST_INTERVAL_MINUTES` (60) crawls them and pushes new and closed postings into Meilisearch. It rebuilds the company index and search suggestions once a day.
 * **Meilisearch** 1.49.0 (the version upstream runs), with its data on a volume and a generated master key.
 * **Postgres**, **Redis** and a **Bucket** (Railway's own).
 

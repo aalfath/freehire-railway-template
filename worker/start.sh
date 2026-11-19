@@ -10,7 +10,7 @@
 #      search (search-drain, upstream's routine path), recount companies; once a day rebuild
 #      the companies index and the search-box suggestions.
 set -u
-INGEST_PROVIDERS="${INGEST_PROVIDERS:-remoteok remotive weworkremotely himalayas jobicy arbeitnow workingnomads}"
+INGEST_PROVIDERS="${INGEST_PROVIDERS:-remoteok remotive weworkremotely himalayas jobicy workingnomads}"
 INGEST_INTERVAL_MINUTES="${INGEST_INTERVAL_MINUTES:-60}"
 REBUILD_EVERY_HOURS="${REBUILD_EVERY_HOURS:-24}"
 export REINDEX_MIN_FREE_GB="${REINDEX_MIN_FREE_GB:-0}"
